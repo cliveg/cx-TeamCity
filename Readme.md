@@ -2,7 +2,7 @@
 
 <b>PowerShell Deployment</b><br>
 $Name = Read-Host "Please enter a unique prefix for your deployment e.g. 1"<br>
-New-AzureResourceGroup -DeploymentName 'AzureDeploy' -Location 'WestUS' -TemplateUri 'https://raw.githubusercontent.com/cliveg/cx-TeamCity/master/azuredeploy.json' -newStorageAccountName tc-sa-$Name -adDNSPrefix tc-dns-ad-$Name -sqlDNSPrefix tc-dns-sql-$Name -spDNSPrefix tc-dns-fe-$Name -Name tc-$name -Verbose
+New-AzureResourceGroup -DeploymentName 'AzureDeploy' -Location 'WestUS' -TemplateUri 'https://raw.githubusercontent.com/cliveg/cx-TeamCity/master/azuredeploy.json' -newStorageAccountName tcsa$Name -adDNSPrefix tc-dns-ad-$Name -sqlDNSPrefix tc-dns-sql-$Name -spDNSPrefix tc-dns-fe-$Name -Name tc-$name -Verbose
 <br>
 Click the button below to deploy
 

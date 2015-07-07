@@ -61,14 +61,14 @@
     "sqlSubnet": {
       "type": "string",
       "metadata": {
-        "Description": "The address range of the SQL subnet created in the new VNET"
+        "Description": "The address range of the TC Server subnet created in the new VNET"
       },
       "defaultValue": "10.0.1.0/24"
     },
     "spSubnet": {
       "type": "string",
       "metadata": {
-        "Description": "The address range of the Skype For Business Server subnet created in the new VNET"
+        "Description": "The address range of the TC Build Agent subnet created in the new VNET"
       },
       "defaultValue": "10.0.2.0/24"
     },
@@ -89,14 +89,14 @@
     "sqlVMName": {
       "type": "string",
       "metadata": {
-        "Description": "The name of the SQL VM created"
+        "Description": "The name of the TC Server VM created"
       },
       "defaultValue": "tcserver"
     },
     "spVMName": {
       "type": "string",
       "metadata": {
-        "Description": "The name of the Skype For Business VM created"
+        "Description": "The name of the TC Build Agent VM created"
       },
       "defaultValue": "tcbuildagent"
     },
@@ -299,7 +299,7 @@
       "metadata": {
         "Description": "The location of resources such as templates and DSC modules that the script is dependent"
       },
-      "defaultValue": "https://raw.githubusercontent.com/cliveg/skype-for-business-simple/master"
+      "defaultValue": "https://raw.githubusercontent.com/cliveg/cx-TeamCity/master"
     }
   },
 	"variables": {
@@ -907,8 +907,7 @@
 				},
 				"protectedSettings": {
 					"Items": {
-						"AdminPassword": "[parameters('adminPassword')]",
-						"SqlServerServiceAccountPassword": "[parameters('sqlServerServiceAccountPassword')]"
+						"AdminPassword": "[parameters('adminPassword')]"
 					}
 				}
 			}
