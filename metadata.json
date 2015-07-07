@@ -1,0 +1,7 @@
+{
+	"itemDisplayName": "Create Team Server Deployment",
+	"description": "This template creates three new Azure VMs, each with a public IP address and load balancer and a VNet, it configures one VM to be an AD DC for a new Forest and Domain, one with TeamServer Server domain joined and a third VM with Team Server Build Agent, all VMs have public facing RDP",
+	"summary": "This template creates a Team Server Deployment",
+	"githubUsername": "cliveg",
+	"dateUpdated": "2015-07-6"
+}
