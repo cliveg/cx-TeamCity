@@ -58,14 +58,14 @@
       },
       "defaultValue": "10.0.0.0/24"
     },
-    "tcSubnet": {
+    "sqlSubnet": {
       "type": "string",
       "metadata": {
         "Description": "The address range of the TC Server subnet created in the new VNET"
       },
       "defaultValue": "10.0.1.0/24"
     },
-    "baSubnet": {
+    "spSubnet": {
       "type": "string",
       "metadata": {
         "Description": "The address range of the TC Build Agent subnet created in the new VNET"
@@ -86,14 +86,14 @@
       },
       "defaultValue": "adserver"
     },
-    "tcVMName": {
+    "sqlVMName": {
       "type": "string",
       "metadata": {
         "Description": "The name of the TC Server VM created"
       },
       "defaultValue": "tcserver"
     },
-    "baVMName": {
+    "spVMName": {
       "type": "string",
       "metadata": {
         "Description": "The name of the TC Build Agent VM created"
@@ -139,7 +139,7 @@
       },
       "defaultValue": "Standard_DS1"
     },
-    "tcVMSize": {
+    "sqlVMSize": {
       "type": "string",
       "allowedValues": [
         "Standard_D1",
@@ -210,21 +210,21 @@
         "Description": "Image SKU"
       }
     },
-    "tcImagePublisher": {
+    "sqlImagePublisher": {
       "type": "string",
       "defaultValue": "MicrosoftWindowsServer",
       "metadata": {
         "Description": "Image Publisher"
       }
     },
-    "tcImageOffer": {
+    "sqlImageOffer": {
       "type": "string",
       "defaultValue": "WindowsServer",
       "metadata": {
         "Description": "Image Offer"
       }
     },
-    "tcImageSKU": {
+    "sqlImageSKU": {
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
       "metadata": {
@@ -280,19 +280,19 @@
       },
       "defaultValue": "tcad"
     },
-    "tcDNSPrefix": {
+    "sqlDNSPrefix": {
       "type": "string",
       "metadata": {
         "Description": "The DNS Prefix for the Team Server Public IP Address"
       },
-      "defaultValue": "tcsrv"
+      "defaultValue": "tcsql"
     },
-    "baDNSPrefix": {
+    "spDNSPrefix": {
       "type": "string",
       "metadata": {
         "Description": "The DNS Prefix for the TC Build Agent Public IP Address"
       },
-      "defaultValue": "bsba"
+      "defaultValue": "tcsp"
     },
     "AssetLocation": {
       "type": "string",
@@ -308,31 +308,31 @@
 		"RDPNAT": "RDP",
 		"spWebNAT": "sfbWeb",
 		"adSubnetName": "adSubnet",
-		"tcSubnetName": "tcSubnet",
-		"baSubnetName": "sfbSubnet",
+		"sqlSubnetName": "sqlSubnet",
+		"spSubnetName": "sfbSubnet",
 		"adNicName": "adNic",
-		"tcNicName": "tcNic",
-		"spNicName": "baNic",
+		"sqlNicName": "sqlNic",
+		"spNicName": "sfbNic",
 		"VnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
 		"adSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('adSubnetName'))]",
-		"tcSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('tcSubnetName'))]",
-		"baSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('baSubnetName'))]",
+		"sqlSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('sqlSubnetName'))]",
+		"spSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('spSubnetName'))]",
 		"adNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adNicName'))]",
-		"tcNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('tcNicName'))]",
+		"sqlNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]",
 		"spNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('spNicName'))]",
 		"adLBName": "adLoadBalancer",
-		"tcLBName": "tcLoadBalancer",
-		"spLBName": "baLoadBalancer",
+		"sqlLBName": "sqlLoadBalancer",
+		"spLBName": "spLoadBalancer",
 		"adIPConfigID": "[concat(variables('adNicId'),'/ipConfigurations/ipconfig1')]",
 		"adlbID": "[resourceId('Microsoft.Network/loadBalancers',variables('adLBName'))]",
 		"adlbFEConfigID": "[concat(variables('adlbID'),'/frontendIPConfigurations/',variables('LBFE'))]",
 		"adRDPNATRuleID": "[concat(variables('adlbID'),'/inboundNatRules/',variables('RDPNAT'))]",
 		"adBEAddressPoolID": "[concat(variables('adlbID'),'/backendAddressPools/',variables('LBBE'))]",
-		"tcIPConfigID": "[concat(variables('tcNicId'),'/ipConfigurations/ipconfig1')]",
-		"tcllbID": "[resourceId('Microsoft.Network/loadBalancers',variables('tcLBName'))]",
-		"tclbFEConfigID": "[concat(variables('tcllbID'),'/frontendIPConfigurations/',variables('LBFE'))]",
-		"tcRDPNATRuleID": "[concat(variables('tcllbID'),'/inboundNatRules/',variables('RDPNAT'))]",
-		"tcBEAddressPoolID": "[concat(variables('tcllbID'),'/backendAddressPools/',variables('LBBE'))]",
+		"sqlIPConfigID": "[concat(variables('sqlNicId'),'/ipConfigurations/ipconfig1')]",
+		"sqllbID": "[resourceId('Microsoft.Network/loadBalancers',variables('sqlLBName'))]",
+		"sqllbFEConfigID": "[concat(variables('sqllbID'),'/frontendIPConfigurations/',variables('LBFE'))]",
+		"sqlRDPNATRuleID": "[concat(variables('sqllbID'),'/inboundNatRules/',variables('RDPNAT'))]",
+		"sqlBEAddressPoolID": "[concat(variables('sqllbID'),'/backendAddressPools/',variables('LBBE'))]",
 		"spIPConfigID": "[concat(variables('spNicId'),'/ipConfigurations/ipconfig1')]",
 		"splbID": "[resourceId('Microsoft.Network/loadBalancers',variables('spLBName'))]",
 		"splbFEConfigID": "[concat(variables('splbID'),'/frontendIPConfigurations/',variables('LBFE'))]",
@@ -341,17 +341,17 @@
 		"spBEAddressPoolID": "[concat(variables('splbID'),'/backendAddressPools/',variables('LBBE'))]",
 		"adDataDisk": "ADDataDisk",
 		"adDataDiskSize": 127,
-		"tcDataDisk": "tcDataDisk",
-		"tcDataDiskSize": 300,
+		"sqlDataDisk": "SQLDataDisk",
+		"sqlDataDiskSize": 300,
 		"spDataDisk": "SPDataDisk",
 		"spDataDiskSize": 127,
 		"adpublicIPAddressName": "adpublicIP",
-		"tcpublicIPAddressName": "tcpublicIP",
-		"sppublicIPAddressName": "bapublicIP",
+		"sqlpublicIPAddressName": "sqlpublicIP",
+		"sppublicIPAddressName": "sppublicIP",
 		"spCentralAdminPort": 8080,
 		"spAvailabilitySetName": "spAvailabiltySet",
-		"tcAvailabilitySetName": "tcAvailabiltySet",
-		"adAvailabilitySetName": "baAvailabiltySet",
+		"sqlAvailabilitySetName": "sqlAvailabiltySet",
+		"adAvailabilitySetName": "adAvailabiltySet",
 		"publicIPAddressType": "Dynamic",
 		"subnets": [
 			{
@@ -361,24 +361,24 @@
 				}
 			},
 			{
-				"name": "[variables('tcSubnetName')]",
+				"name": "[variables('sqlSubnetName')]",
 				"properties": {
-					"addressPrefix": "[parameters('tcSubnet')]"
+					"addressPrefix": "[parameters('sqlSubnet')]"
 				}
 			},
 			{
-				"name": "[variables('baSubnetName')]",
+				"name": "[variables('spSubnetName')]",
 				"properties": {
-					"addressPrefix": "[parameters('baSubnet')]"
+					"addressPrefix": "[parameters('spSubnet')]"
 				}
 			}
 		],
 		"vnetwithDNSTemplateUri": "[concat(parameters('AssetLocation'),'/vnet-with-dns-server.json')]",
-		"nicUpdate": "[concat(parameters('AssetLocation'),'/nicUpdate.json')]",tcModulesURL  
+		"nicUpdate": "[concat(parameters('AssetLocation'),'/nicUpdate.json')]",
 		"adModulesURL": "[concat(parameters('AssetLocation'),'/CreateADPDC.ps1.zip')]",
 		"adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-		"tcModulesURL": "[concat(parameters('AssetLocation'),'/ConfigureTCServer.ps1.zip')]",
-		"tcConfigurationFunction": "ConfigureTCServer.ps1\\ConfigureTCServer",
+		"sqlModulesURL": "[concat(parameters('AssetLocation'),'/ConfigureTCServer.ps1.zip')]",
+		"sqlConfigurationFunction": "ConfigureTCServer.ps1\\ConfigureTCServer",
 		"spModulesURL": "[concat(parameters('AssetLocation'),'/ConfigureTCBuildAgent.ps1.zip')]",
 		"spConfigurationFunction": "ConfigureTCBuildAgent.ps1\\ConfigureTCBuildAgent"
 	},
@@ -407,12 +407,12 @@
 		{
 			"apiVersion": "2015-05-01-preview",
 			"type": "Microsoft.Network/publicIPAddresses",
-			"name": "[variables('tcpublicIPAddressName')]",
+			"name": "[variables('sqlpublicIPAddressName')]",
 			"location": "[parameters('location')]",
 			"properties": {
 				"publicIPAllocationMethod": "[variables('publicIPAddressType')]",
 				"dnsSettings": {
-					"domainNameLabel": "[parameters('tcDNSPrefix')]"
+					"domainNameLabel": "[parameters('sqlDNSPrefix')]"
 				}
 			}
 		},
@@ -424,7 +424,7 @@
 			"properties": {
 				"publicIPAllocationMethod": "[variables('publicIPAddressType')]",
 				"dnsSettings": {
-					"domainNameLabel": "[parameters('baDNSPrefix')]"
+					"domainNameLabel": "[parameters('spDNSPrefix')]"
 				}
 			}
 		},
@@ -442,7 +442,7 @@
 		},
 		{
 			"type": "Microsoft.Compute/availabilitySets",
-			"name": "[variables('tcAvailabilitySetName')]",
+			"name": "[variables('sqlAvailabilitySetName')]",
 			"apiVersion": "2015-05-01-preview",
 			"location": "[parameters('location')]"
 		},
@@ -502,11 +502,11 @@
 		},
 		{
 			"apiVersion": "2015-05-01-preview",
-			"name": "[variables('tcLBName')]",
+			"name": "[variables('sqllbName')]",
 			"type": "Microsoft.Network/loadBalancers",
 			"location": "[parameters('location')]",
 			"dependsOn": [
-				"[resourceId('Microsoft.Network/publicIPAddresses',variables('tcpublicIPAddressName'))]"
+				"[resourceId('Microsoft.Network/publicIPAddresses',variables('sqlpublicIPAddressName'))]"
 			],
 			"properties": {
 				"frontendIPConfigurations": [
@@ -514,7 +514,7 @@
 						"name": "[variables('LBFE')]",
 						"properties": {
 							"publicIPAddress": {
-								"id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('tcpublicIPAddressName'))]"
+								"id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('sqlpublicIPAddressName'))]"
 							}
 						}
 					}
@@ -529,7 +529,7 @@
 						"name": "[variables('RDPNAT')]",
 						"properties": {
 							"frontendIPConfiguration": {
-								"id": "[variables('tclbFEConfigID')]"
+								"id": "[variables('sqllbFEConfigID')]"
 							},
 							"protocol": "tcp",
 							"frontendPort": "[parameters('RDPPort')]",
@@ -627,13 +627,13 @@
 			}
 		},
 		{
-			"name": "[variables('tcNicName')]",
+			"name": "[variables('sqlNicName')]",
 			"type": "Microsoft.Network/networkInterfaces",
 			"location": "[parameters('location')]",
 			"apiVersion": "2015-05-01-preview",
 			"dependsOn": [
 				"[parameters('virtualNetworkName')]",
-				"[concat('Microsoft.Network/loadBalancers/',variables('tcLBName'))]"
+				"[concat('Microsoft.Network/loadBalancers/',variables('sqllbName'))]"
 			],
 			"properties": {
 				"ipConfigurations": [
@@ -642,16 +642,16 @@
 						"properties": {
 							"privateIPAllocationMethod": "Dynamic",
 							"subnet": {
-								"id": "[variables('tcSubnetRef')]"
+								"id": "[variables('sqlSubnetRef')]"
 							},
 							"loadBalancerBackendAddressPools": [
 								{
-									"id": "[variables('tcBEAddressPoolID')]"
+									"id": "[variables('sqlBEAddressPoolID')]"
 								}
 							],
 							"loadBalancerInboundNatRules": [
 								{
-									"id": "[variables('tcRDPNATRuleID')]"
+									"id": "[variables('sqlRDPNATRuleID')]"
 								}
 							]
 						}
@@ -675,7 +675,7 @@
 						"properties": {
 							"privateIPAllocationMethod": "Dynamic",
 							"subnet": {
-								"id": "[variables('baSubnetRef')]"
+								"id": "[variables('spSubnetRef')]"
 							},
 							"loadBalancerBackendAddressPools": [
 								{
@@ -824,37 +824,37 @@
 		{
 			"apiVersion": "2015-05-01-preview",
 			"type": "Microsoft.Compute/virtualMachines",
-			"name": "[parameters('tcVMName')]",
+			"name": "[parameters('sqlVMName')]",
 			"location": "[parameters('location')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.Storage/storageAccounts',parameters('newStorageAccountName'))]",
-				"[resourceId('Microsoft.Network/networkInterfaces',variables('tcNicName'))]",
-				"[resourceId('Microsoft.Compute/availabilitySets', variables('tcAvailabilitySetName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]",
+				"[resourceId('Microsoft.Compute/availabilitySets', variables('sqlAvailabilitySetName'))]",
 				"Microsoft.Resources/deployments/UpdateVNetDNS"
 			],
 			"properties": {
 				"hardwareProfile": {
-					"vmSize": "[parameters('tcVMSize')]"
+					"vmSize": "[parameters('sqlVMSize')]"
 				},
 				"availabilitySet": {
-					"id": "[resourceId('Microsoft.Compute/availabilitySets', variables('tcAvailabilitySetName'))]"
+					"id": "[resourceId('Microsoft.Compute/availabilitySets', variables('sqlAvailabilitySetName'))]"
 				},
 				"osProfile": {
-					"computername": "[parameters('tcVMName')]",
+					"computername": "[parameters('sqlVMName')]",
 					"adminUsername": "[parameters('adminUsername')]",
 					"adminPassword": "[parameters('adminPassword')]"
 				},
 				"storageProfile": {
 					"imageReference": {
-						"publisher": "[parameters('tcImagePublisher')]",
-						"offer": "[parameters('tcImageOffer')]",
-						"sku": "[parameters('tcImageSKU')]",
+						"publisher": "[parameters('sqlImagePublisher')]",
+						"offer": "[parameters('sqlImageOffer')]",
+						"sku": "[parameters('sqlImageSKU')]",
 						"version": "latest"
 					},
 					"osDisk": {
 						"name": "osdisk",
 						"vhd": {
-							"uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/',parameters('tcVMName'),'-osdisk.vhd')]"
+							"uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/',parameters('sqlVMName'),'-osdisk.vhd')]"
 						},
 						"caching": "ReadWrite",
 						"createOption": "FromImage"
@@ -862,12 +862,12 @@
 					"dataDisks": [
 						{
 							"vhd": {
-								"uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/', variables('tcDataDisk'), '-1.vhd')]"
+								"uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/', variables('sqlDataDisk'), '-1.vhd')]"
 							},
-							"name": "[concat(parameters('tcVMName'),'-data-disk1')]",
+							"name": "[concat(parameters('sqlVMName'),'-data-disk1')]",
 							"createOption": "empty",
 							"caching": "None",
-							"diskSizeGB": "[variables('tcDataDiskSize')]",
+							"diskSizeGB": "[variables('sqlDataDiskSize')]",
 							"lun": 0
 						}
 					]
@@ -875,7 +875,7 @@
 				"networkProfile": {
 					"networkInterfaces": [
 						{
-							"id": "[resourceId('Microsoft.Network/networkInterfaces',variables('tcNicName'))]"
+							"id": "[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]"
 						}
 					]
 				}
@@ -883,11 +883,11 @@
 		},
 		{
 			"type": "Microsoft.Compute/virtualMachines/extensions",
-			"name": "[concat(parameters('tcVMName'),'/CreateTCServer')]",
+			"name": "[concat(parameters('sqlVMName'),'/CreateSQLServer')]",
 			"apiVersion": "2015-05-01-preview",
 			"location": "[parameters('location')]",
 			"dependsOn": [
-				"[concat('Microsoft.Compute/virtualMachines/', parameters('tcVMName'))]",
+				"[concat('Microsoft.Compute/virtualMachines/', parameters('sqlVMName'))]",
 				"Microsoft.Resources/deployments/UpdateVNetDNS"
 			],
 			"properties": {
@@ -895,8 +895,8 @@
 				"type": "DSC",
 				"typeHandlerVersion": "1.7",
 				"settings": {
-					"ModulesUrl": "[variables('tcModulesURL')]",
-					"ConfigurationFunction": "[variables('tcConfigurationFunction')]",
+					"ModulesUrl": "[variables('sqlModulesURL')]",
+					"ConfigurationFunction": "[variables('sqlConfigurationFunction')]",
 					"Properties": {
 						"DomainName": "[parameters('domainName')]",
 						"AdminCreds": {
@@ -915,7 +915,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('baVMName')]",
+      "name": "[parameters('spVMName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('newStorageAccountName'))]",
@@ -931,7 +931,7 @@
           "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('spAvailabilitySetName'))]"
         },
         "osProfile": {
-          "computername": "[parameters('baVMName')]",
+          "computername": "[parameters('spVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -945,7 +945,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/',parameters('baVMName'),'-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/',parameters('spVMName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -953,9 +953,9 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/',parameters('baVMName'),'-', variables('spDataDisk'),'-1.vhd')]"
+                "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',parameters('vmContainerName'),'/',parameters('spVMName'),'-', variables('spDataDisk'),'-1.vhd')]"
               },
-              "name": "[concat(parameters('baVMName'),'-data-disk1')]",
+              "name": "[concat(parameters('spVMName'),'-data-disk1')]",
               "createOption": "empty",
               "caching": "None",
               "diskSizeGB": "[variables('spDataDiskSize')]",
@@ -974,11 +974,11 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(parameters('baVMName'),'/ConfigureSPServer')]",
+          "name": "[concat(parameters('spVMName'),'/ConfigureSPServer')]",
           "apiVersion": "2015-05-01-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('baVMName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('spVMName'))]"
           ],
           "properties": {
             "publisher": "Microsoft.Powershell",
