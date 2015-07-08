@@ -829,7 +829,8 @@
 			"dependsOn": [
 				"[resourceId('Microsoft.Storage/storageAccounts',parameters('newStorageAccountName'))]",
 				"[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]",
-        "[resourceId('Microsoft.Compute/availabilitySets', variables('sqlAvailabilitySetName'))]"
+				"[resourceId('Microsoft.Compute/availabilitySets', variables('sqlAvailabilitySetName'))]",
+				"Microsoft.Resources/deployments/UpdateVNetDNS"
 			],
 			"properties": {
 				"hardwareProfile": {
@@ -886,7 +887,8 @@
 			"apiVersion": "2015-05-01-preview",
 			"location": "[parameters('location')]",
 			"dependsOn": [
-				"[concat('Microsoft.Compute/virtualMachines/', parameters('sqlVMName'))]"
+				"[concat('Microsoft.Compute/virtualMachines/', parameters('sqlVMName'))]",
+				"Microsoft.Resources/deployments/UpdateVNetDNS"
 			],
 			"properties": {
 				"publisher": "Microsoft.Powershell",
@@ -918,7 +920,8 @@
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('newStorageAccountName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces',variables('spNicName'))]",
-        "[resourceId('Microsoft.Compute/availabilitySets', variables('spAvailabilitySetName'))]"
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('spAvailabilitySetName'))]",
+        "Microsoft.Resources/deployments/UpdateVNetDNS"
       ],
       "properties": {
         "hardwareProfile": {
