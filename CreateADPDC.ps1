@@ -73,6 +73,32 @@
             LogPath = "F:\NTDS"
             SysvolPath = "F:\SYSVOL"
         }
+	WindowsFeature AD-Certificate
+        {
+            Ensure = 'Present'
+            Name = 'AD-Certificate'
+            DependsOn = '[xADDomain]FirstDS'
+        }
+        WindowsFeature ADCS-Web-Enrollment
+        {
+            Ensure = 'Present'
+            Name = 'ADCS-Web-Enrollment'
+            DependsOn = '[WindowsFeature]AD-Certificate'
+        }
+        xADCSCertificationAuthority ADCS
+        {
+            Ensure = 'Present'
+            Credential = $DomainCreds
+            CAType = 'EnterpriseRootCA'
+            DependsOn = '[WindowsFeature]ADCS-Web-Enrollment'              
+        }
+        xADCSWebEnrollment CertSrv
+        {
+            Ensure = 'Present'
+            Credential = $DomainCreds
+            Name = 'CertSrv'
+            DependsOn = '[WindowsFeature]ADCS-Web-Enrollment','[xADCSCertificationAuthority]ADCS'
+        }  
         LocalConfigurationManager 
         {
              ActionAfterReboot = 'StopConfiguration'

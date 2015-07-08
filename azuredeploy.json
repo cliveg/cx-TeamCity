@@ -829,8 +829,9 @@
 			"dependsOn": [
 				"[resourceId('Microsoft.Storage/storageAccounts',parameters('newStorageAccountName'))]",
 				"[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]",
-				"[resourceId('Microsoft.Compute/availabilitySets', variables('sqlAvailabilitySetName'))]",
-				"Microsoft.Resources/deployments/UpdateVNetDNS"
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('sqlAvailabilitySetName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/InstallDomainController')]",
+        "Microsoft.Resources/deployments/UpdateVNetDNS"
 			],
 			"properties": {
 				"hardwareProfile": {
@@ -887,7 +888,8 @@
 			"apiVersion": "2015-05-01-preview",
 			"location": "[parameters('location')]",
 			"dependsOn": [
-				"[concat('Microsoft.Compute/virtualMachines/', parameters('sqlVMName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('sqlVMName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/InstallDomainController')]",
 				"Microsoft.Resources/deployments/UpdateVNetDNS"
 			],
 			"properties": {
@@ -921,6 +923,7 @@
         "[resourceId('Microsoft.Storage/storageAccounts',parameters('newStorageAccountName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces',variables('spNicName'))]",
         "[resourceId('Microsoft.Compute/availabilitySets', variables('spAvailabilitySetName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/InstallDomainController')]",
         "Microsoft.Resources/deployments/UpdateVNetDNS"
       ],
       "properties": {
@@ -978,7 +981,8 @@
           "apiVersion": "2015-05-01-preview",
           "location": "[parameters('location')]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('spVMName'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('spVMName'))]",
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/InstallDomainController')]"
           ],
           "properties": {
             "publisher": "Microsoft.Powershell",
