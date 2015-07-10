@@ -895,7 +895,7 @@
 			"properties": {
 				"publisher": "Microsoft.Powershell",
 				"type": "DSC",
-				"typeHandlerVersion": "1.7",
+				"typeHandlerVersion": "2.0",
 				"settings": {
 					"ModulesUrl": "[variables('sqlModulesURL')]",
 					"ConfigurationFunction": "[variables('sqlConfigurationFunction')]",
@@ -982,12 +982,13 @@
           "location": "[parameters('location')]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', parameters('spVMName'))]",
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/InstallDomainController')]"
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('adVMName'),'/extensions/InstallDomainController')]",     
+				    "Microsoft.Resources/deployments/UpdateVNetDNS"
           ],
           "properties": {
             "publisher": "Microsoft.Powershell",
             "type": "DSC",
-            "typeHandlerVersion": "1.7",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('spModulesURL')]",
               "ConfigurationFunction": "[variables('spConfigurationFunction')]",
